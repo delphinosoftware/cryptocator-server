@@ -107,7 +107,9 @@ body {
                 <br />
                   </span></p>
               <p align="left" class="Stil3"><span class="Stil12"><span class="Stil19">Download</span></span></p>
-              <p class="Stil3 Stil1"><span class="Stil18"><span class="Stil21">Get Cryptocator Android app from the Google Play Store: <a href="https://play.google.com/store/apps/details?id=org.cryptocator" target="_blank">https://play.google.com/store/apps/details?id=org.cryptocator</a></span></span></p>
+              <p class="Stil3 Stil1"><span class="Stil18"><span class="Stil21">Get Cryptocator Android app from the Google Play Store: <a href="https://play.google.com/store/apps/details?id=org.cryptocator" target="_blank">https://play.google.com/store/apps/details?id=org.cryptocator</a></span></span><br />
+                <br />
+                  <img src="qr.jpg" alt="settings" width="205" height="205" border="0" /></p>
               <p class="Stil3 Stil1"><span class="Stil18"><span class="Stil21">Contribute at GitHub:<br />
               Android Client: <a href="https://github.com/delphinosoftware/cryptocator-client-android">https://github.com/delphinosoftware/cryptocator-client-android</a> <br />
               Own Server: <a href="https://github.com/delphinosoftware/cryptocator-server">https://github.com/delphinosoftware/cryptocator-server</a> </span></span></p>

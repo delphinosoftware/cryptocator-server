@@ -112,7 +112,9 @@ body {
                   <img src="qr.jpg" alt="settings" width="205" height="205" border="0" /></p>
               <p class="Stil3 Stil1"><span class="Stil18"><span class="Stil21">Contribute at GitHub:<br />
               Android Client: <a href="https://github.com/delphinosoftware/cryptocator-client-android">https://github.com/delphinosoftware/cryptocator-client-android</a> <br />
-              Own Server: <a href="https://github.com/delphinosoftware/cryptocator-server">https://github.com/delphinosoftware/cryptocator-server</a> </span></span></p>
+              Own Server: <a href="https://github.com/delphinosoftware/cryptocator-server">https://github.com/delphinosoftware/cryptocator-server</a> </span></span><br />
+              <br />
+              </p>
               <p align="left" class="Stil3"><span class="Stil12"><span class="Stil19">End-To-End Encryption</span></span></p>
               <p class="Stil3 Stil1"><span class="Stil18"><span class="Stil21">All messages are encrypted on the mobile device before sending and can only be decrypted by the receiver (or the sender). Anybody in between, even the message server, won't be able to decrypt your message simply because only the sender and the receiver share the secret key necessary to decrypt the message. Following the <a href="https://en.wikipedia.org/wiki/Forward_secrecy" target="_blank">Perfect-Forward-Secrecy</a> policy, such keys are automatically renewed after one hour. The following shows a screen shot from the server database containing encrypted messages, even some with equal content, which is not visible due to random characters automatically added:</span></span></p>
               <p align="left" class="Stil3"><span class="Stil12"><span class="Stil19"><a href="server.jpg" target="_blank"><img class="imgimage" src="server.jpg" alt="settings" width="533" height="158" border="0" /></a></span></span></p>
@@ -121,6 +123,8 @@ body {
               <p class="Stil3 Stil1"><span class="Stil18"><span class="Stil21">We are currently beta testing our software and doing code cleanup &amp; reviews. Cryptocator is planned to become available at the Google Play Store in September/October 2015. If you are interested in this project and want to help testing (a functional alpha version already exists) or contribute, please write an email:</span></span><span class="Stil13"><span class="Stil14"><strong><br />
               </strong> </span></span><span class="Stil12"><img src="email.jpg" alt="settings" width="300" height="31" /></span></p>
               <p align="left" class="Stil3"><span class="Stil3 Stil1"><span class="Stil18"><span class="Stil21">Finally, we dare the step into the world after beta testing with some devices. Please note that this is a VERY EARLY stage and do not expect an extremely robust product yet. Additionally, the server cryptocator.org ist privately owned and not intended to be used by any company or heavy-users. It is intended for demo purposes or very light usage only. We reserve the right to ban users for any reason. Please always keep in mind Cryptocator's vision II+III: It is to encourage people to use their own private servers for their closed user groups. (9/11/2015) </span></span><span class="Stil13"><span class="Stil14"><strong></strong></span></span></span><br />
+                  <br />
+                <br />
               </p>
               <p align="left" class="Stil3"><span class="Stil12">Features<br />
               </span> </p>

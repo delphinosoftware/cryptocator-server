@@ -1,0 +1,24 @@
+Welcome %USERNAME,
+
+Delphino Cryptocator is a platform to freely communicate with your friends. This is a commercial-free platform. We do not work together with any business or any government like the NSA. We'll do our best to keep it simple and to protect your privacy.
+Invite your friends and tell them your UID. This way they can add you to their account!
+
+      Your permanent user id (UID) : %UID
+              Your permanent email : %EMAIL
+Your current username (changeable) : %USERNAME
+
+---
+
+Activate your account using the following link:
+%BASEURL?cmd=activateaccount&val=%ACTIVATION
+
+---
+
+We hope you'll like our service,
+
+Delphino Cryptocator Team
+http://www.cryptocator.org
+
+-----------------------------------------
+This mail was requested by IP address %IPADDRESS.
+

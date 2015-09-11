@@ -1,0 +1,24 @@
+Welcome %USERNAME,
+
+      Your permanent user id (UID) : %UID
+              Your permanent email : %EMAIL
+Your current username (changeable) : %USERNAME
+
+---
+
+You have requested a password reset. A temporary password has been created for you. You should change this password soon.
+
+The temporary password is : %PASSWORD
+
+Use the following link to activate this temporary password:
+%BASEURL?cmd=activatepwd&val=%ACTIVATION
+
+---
+
+Best regards,
+
+Delphino Cryptocator Team
+http://www.cryptocator.org
+
+-----------------------------------------
+This mail was requested by IP address %IPADDRESS.

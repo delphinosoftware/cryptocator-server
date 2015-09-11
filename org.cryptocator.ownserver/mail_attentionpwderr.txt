@@ -1,0 +1,24 @@
+Welcome %USERNAME (UID: %UID)
+
+   +++ THIS IS A SECURITY WARNING +++
+
+---
+
+There were more than 10 X attempts to log into your account with
+a wrong password (last attempt now, with IP address %IPADDRESS).
+
+If these login attempts were made by yourself then you should not worry
+but you can reset your password here:
+%BASEURL?cmd=resetpwd&email=%EMAIL
+
+Otherwise, for precaution, we advise you to promptly change your password to a secure one.
+
+---
+
+Best regards,
+
+Delphino Cryptocator Team
+http://www.cryptocator.org
+
+-----------------------------------------
+This mail was requested by IP address %IPADDRESS.

@@ -124,7 +124,7 @@ body {
                 </tr>
                 <tr>
                   <td valign="top"><div align="center">
-                    <p align="left" class="Stil21 Stil1">                      If you like Cryptocator your <a href="https://www.paypal.me/Motika" target="_blank">donation</a> is very welcome! </p>
+                    <p align="left" class="Stil21 Stil1">                      If you like Cryptocator, your <a href="https://www.paypal.me/Motika" target="_blank">donation</a> is very welcome! Support us and our expenses. </p>
                     <p class="Stil21 Stil1">&nbsp;</p>
                   </div></td>
                 </tr>

@@ -131,8 +131,8 @@ body {
               </table>
               </p>
 <p class="Stil3 Stil1"><span class="Stil18"><span class="Stil21">Contribute at GitHub:<br />
-              Android Client: <a href="https://github.com/delphinosoftware/cryptocator-client-android">https://github.com/delphinosoftware/cryptocator-client-android</a> <br />
-              Own Server: <a href="https://github.com/delphinosoftware/cryptocator-server">https://github.com/delphinosoftware/cryptocator-server</a> </span></span><br />
+              Android Client: <a href="https://github.com/delphinosoftware/cryptocator-client-android" target="_blank">https://github.com/delphinosoftware/cryptocator-client-android</a> <br />
+              Own Server: <a href="https://github.com/delphinosoftware/cryptocator-server" target="_blank">https://github.com/delphinosoftware/cryptocator-server</a> </span></span><br />
               <br />
               </p>
               <p align="left" class="Stil3"><span class="Stil12"><span class="Stil19">End-To-End Encryption</span></span></p>

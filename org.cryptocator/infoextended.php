@@ -32,6 +32,12 @@
     width:100%;
     height:auto;
 }
+
+.floattable {
+    float:left;
+	display: inline-table;
+}
+
 <!--
 .Stil1 {font-family: Verdana, Arial, Helvetica, sans-serif}
 .Stil3 {font-size: x-small}
@@ -106,11 +112,25 @@ body {
                 <a href="userlist.jpg" target="_blank"><img src="userlist.jpg" alt="userlist" width="270" height="480" border="0" /></a> <a href="chat.jpg" target="_blank"><img src="chat.jpg" alt="chat" width="270" height="480" border="0" /></a> <a href="settings.jpg" target="_blank"><img src="settings.jpg" alt="settings" width="270" height="480" border="0" /></a> <a href="smileysimages.jpg" target="_blank"><img src="smileysimages.jpg" alt="settings" width="270" height="480" border="0" /></a><br />
                 <br />
                   </span></p>
-              <p align="left" class="Stil3"><span class="Stil12"><span class="Stil19">Download</span></span></p>
+              <p align="left" class="Stil3"><span class="Stil12"><span class="Stil19">Download &amp; Donate</span></span></p>
               <p class="Stil3 Stil1"><span class="Stil18"><span class="Stil21">Get Cryptocator Android app from the Google Play Store: <a href="https://play.google.com/store/apps/details?id=org.cryptocator" target="_blank">https://play.google.com/store/apps/details?id=org.cryptocator</a></span></span><br />
                 <br />
-                  <img src="qr.jpg" alt="settings" width="205" height="205" border="0" /></p>
-              <p class="Stil3 Stil1"><span class="Stil18"><span class="Stil21">Contribute at GitHub:<br />
+                  <img src="qr.jpg" alt="settings" width="205" height="205" border="0" class="floattable" />
+              <table width="150" height="205" border="0" cellspacing="10 class="floattable">
+                <tr>
+                  <td><div align="left"><span class="Stil3 Stil1"><a href="https://www.paypal.me/Motika" target="_blank"><br />
+                    <br />
+                    <img src="paypal.png" alt="settings" width="139" height="48" border="0" /></a></span></div></td>
+                </tr>
+                <tr>
+                  <td valign="top"><div align="center">
+                    <p align="left" class="Stil21 Stil1">                      If you like Cryptocator your <a href="https://www.paypal.me/Motika" target="_blank">donation</a> is very welcome! </p>
+                    <p class="Stil21 Stil1">&nbsp;</p>
+                  </div></td>
+                </tr>
+              </table>
+              </p>
+<p class="Stil3 Stil1"><span class="Stil18"><span class="Stil21">Contribute at GitHub:<br />
               Android Client: <a href="https://github.com/delphinosoftware/cryptocator-client-android">https://github.com/delphinosoftware/cryptocator-client-android</a> <br />
               Own Server: <a href="https://github.com/delphinosoftware/cryptocator-server">https://github.com/delphinosoftware/cryptocator-server</a> </span></span><br />
               <br />

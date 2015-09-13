@@ -61,6 +61,7 @@ $sql = 'CREATE TABLE IF NOT EXISTS `users` ('
         . ' `pwdchange` VARCHAR(50) NOT NULL,'
         . ' `activation` VARCHAR(50) NOT NULL, '
         . ' `phone` VARCHAR(2000) NOT NULL, '
+        . ' `avatar` VARCHAR(20000) NOT NULL, '
         . ' `pwderr` INT NOT NULL default 0, '
         . ' PRIMARY KEY (`uid`)'
         . ' )';

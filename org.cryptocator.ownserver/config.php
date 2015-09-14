@@ -16,6 +16,7 @@ $CONST_EMAILHEADER .= "Content-transfer-encoding: quoted-printable";
 $CONST_EMAILHEADER .= "MIME-Version: 1.0\n";
 
 $allownewaccounts = true; // disallow any new accounts
+$allowavatars = true;
 $serverstealthmode = false; // if an invalid url is entered, a 500 internal server error is presented instead
 
 $allowattachments = true;  // attachments for internet messages allowed

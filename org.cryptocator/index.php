@@ -2857,7 +2857,10 @@ in the server error log.</p>
  	  $uid = loginTmp($session);
       if ($uid != -1) {
         //$val = decLongText($val);
-        if ($val != -1) {
+        if (!$allowavatars) {
+	     	printf("-44"); // -44 == avatars not allowed at this server
+        }
+        else if ($val != -1) {
 	 		printf(updateAvatar($uid, $val));
         } else {
 	     	printf("-22"); // -22 == avatar transmission error try again

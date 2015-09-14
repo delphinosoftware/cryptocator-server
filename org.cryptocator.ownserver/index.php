@@ -1705,7 +1705,7 @@ in the server error log.</p>
    	   $uid = intval($uid);
  	   $backvalue = "";
 	   $receivedTimeStamp = date("U")."000";
-       $query2 = "SELECT `mid`, `read`, `failed` FROM `messages` WHERE `read` > '".$tsread."' AND `fromuid` = '".$uid."' ORDER BY mid ASC";
+       $query2 = "SELECT `mid`, `read`, `failed`, `touid` FROM `messages` WHERE `read` > '".$tsread."' AND `fromuid` = '".$uid."' ORDER BY mid ASC";
        //printf($query2."<BR>");
        $result2 = mysql_query($query2);
         $found = false;
@@ -1715,13 +1715,18 @@ in the server error log.</p>
  	   		while($row = mysql_fetch_array($result2,MYSQL_ASSOC)) {
 	 	       $e = implode(" ",$row);
 	 	       $f = explode(" ",$e);
-	 	       if ($f[2] == 1) {
-	 	         	// failed => set timestamp to negative value
-		 	       $backvalue .= "#".$f[0]."@-".$f[1];
-	 	       } else {
-	 	       	 	// everything ok
-		 	       $backvalue .= "#".$f[0]."@".$f[1];
-	 	       }
+
+	 	       // Only getting received informations if the other user has confirmed added us to his list!
+			   $hostuid = $f[3];
+			   if (isAllowedToGet($uid, $hostuid)) {
+		 	       if ($f[2] == 1) {
+		 	         	// failed => set timestamp to negative value
+			 	       $backvalue .= "#".$f[0]."@-".$f[1];
+		 	       } else {
+		 	       	 	// everything ok
+			 	       $backvalue .= "#".$f[0]."@".$f[1];
+		 	       }
+   	 	       }
 	    	}
  	   }
   	   if ($found) {
@@ -1737,7 +1742,7 @@ in the server error log.</p>
   function inforeceived($uid, $tsreceived) {
    	    $uid = intval($uid);
   	    $receivedTimeStamp = date("U")."000";
-        $query2 = "SELECT mid, received FROM messages WHERE received > '".$tsreceived."' AND fromuid = '".$uid."' ORDER BY mid ASC";
+        $query2 = "SELECT mid, received, `toid` FROM messages WHERE received > '".$tsreceived."' AND fromuid = '".$uid."' ORDER BY mid ASC";
         $result2 = mysql_query($query2);
         $found = false;
         $backvalue = "";
@@ -1747,7 +1752,12 @@ in the server error log.</p>
   	   		while($row = mysql_fetch_array($result2,MYSQL_ASSOC)) {
  	 	       $e = implode(" ",$row);
  	 	       $f = explode(" ",$e);
- 	 	       $backvalue .= "#".$f[0]."@".$f[1];
+
+ 	 	       // Only getting received informations if the other user has confirmed added us to his list!
+ 	 	       $hostuid = $f[2];
+ 	 	       if (isAllowedToGet($uid, $hostuid)) {
+		 	       $backvalue .= "#".$f[0]."@".$f[1];
+ 	 	       }
  	    	}
   	   }
   	   if ($found) {
@@ -1780,6 +1790,12 @@ in the server error log.</p>
   function backupUserlist($uid, $val, $manual) {
 	$uid = intval($uid);
     $result1 = deleteUserlist($uid, $manual);
+    if ($val == "") {
+    	// just clear do not add anybody
+        $backvalue = "1";
+    	return $backvalue;
+    }
+
  	$backvalue = "-1";
  	$hostuids = explode("#", $val);
  	$result2 = true;
@@ -1855,10 +1871,7 @@ in the server error log.</p>
   function getPhone($uid, $hostuid) {
 	   $uid = intval($uid);
 	   $hostuid = intval($hostuid);
-       $query1 = "SELECT hostuid FROM `userlist` WHERE uid = '".$hostuid."' AND hostuid = '".$uid."'";
-       //printf($query1."<BR>");
-       $result1 = mysql_query($query1);
- 	   if (mysql_num_rows($result1) > 0) {
+ 	   if (isAllowedToGet($uid, $hostuid)) {
  	   			// we are allowed to receive the phone number from user hostuid, because user hostuid has us (uid) in his userlist
 		       $query2 = "SELECT phone FROM `users` WHERE uid = '".$hostuid."'";
 		       $result2 = mysql_query($query2);
@@ -1889,6 +1902,83 @@ in the server error log.</p>
        		$nextNumber = encText($uid, $nextNumber);
        }
        $backvalue .= $nextNumber;
+	}
+	if ($found) {
+	    return "1#".$backvalue;
+	} else {
+	    return "-1";
+	}
+ }
+
+
+  //--------------------------------------------------------------
+  //--------------------------------------------------------------
+
+  function updateAvatar($uid, $val) {
+	$uid = intval($uid);
+ 	$backvalue = "-1";
+ 	if ($val == "delete") {
+ 	 	$val = "";
+ 	}
+    $query = "UPDATE `users` SET `avatar` = '".$val."' WHERE uid = '".$uid."'";
+    $result = mysql_query($query);
+    if ($result) {
+          $backvalue = "1";
+    }
+ 	else {
+ 	      $backvalue = "0";
+ 	}
+    return $backvalue;
+  }
+
+
+  function isAllowedToGet($uid, $hostuid) {
+	   $uid = intval($uid);
+	   $hostuid = intval($hostuid);
+       $query1 = "SELECT hostuid FROM `userlist` WHERE uid = '".$hostuid."' AND hostuid = '".$uid."'";
+       //printf($query1."<BR>");
+       $result1 = mysql_query($query1);
+ 	   if (mysql_num_rows($result1) > 0) {
+   			// we are allowed to receive username/avatar/phonenumber  from user hostuid, because user hostuid has us (uid) in his userlist
+ 	   		return true;
+ 	   }
+ 	   return false;
+  }
+
+  function getAvatar($uid, $hostuid) {
+	   $uid = intval($uid);
+	   $hostuid = intval($hostuid);
+ 	   if (isAllowedToGet($uid, $hostuid)) {
+ 	   			// we are allowed to receive the avatar  from user hostuid, because user hostuid has us (uid) in his userlist
+		       $query2 = "SELECT `avatar` FROM `users` WHERE uid = '".$hostuid."'";
+		       $result2 = mysql_query($query2);
+		 	   if (mysql_num_rows($result2) > 0) {
+		 	       $row = mysql_fetch_array($result2,MYSQL_ASSOC);
+		 	       $e = implode(" ",$row);
+		 	       $f = explode(" ",$e);
+		 	       return $f[0];
+		 	   }
+ 	   }
+ 	   return "-1";
+  }
+
+
+ function hasAvatar($uid, $val) {
+	$uid = intval($uid);
+    $backvalue = "";
+    $hostuids = explode("#", $val);
+    $found = false;
+    foreach ($hostuids as $hostuid) {
+       $found = true;
+       if ((strlen($backvalue)) > 0) {
+ 	       $backvalue .= "#";
+       }
+       $hostuid = decUid($uid, $hostuid);
+       $nextAvatar = getAvatar($uid, $hostuid);
+       //if ($nextAvatar != "-1") {
+       //		$nextAvatar = encLongText($uid, $nextAvatar);
+       //}
+       $backvalue .= $nextAvatar;
 	}
 	if ($found) {
 	    return "1#".$backvalue;
@@ -1974,16 +2064,21 @@ in the server error log.</p>
        if ((strlen($backvalue)) > 0) {
  	       $backvalue .= "#";
        }
-       $query2 = "SELECT created FROM `keys` WHERE uid = '".$hostuid."' ORDER BY kid DESC";
-       $result2 = mysql_query($query2);
- 	   if (mysql_num_rows($result2) > 0) {
- 	       $row = mysql_fetch_array($result2,MYSQL_ASSOC);
- 	       $e = implode(" ",$row);
- 	       $f = explode(" ",$e);
- 	       $backvalue .= $f[0];
- 	   } else {
+       if (!isAllowedToGet($uid, $hostuid)) {
  	       $backvalue .= "0";
- 	   }
+       } else {
+       	   // We are allowed to download the key
+	       $query2 = "SELECT created FROM `keys` WHERE uid = '".$hostuid."' ORDER BY kid DESC";
+	       $result2 = mysql_query($query2);
+	 	   if (mysql_num_rows($result2) > 0) {
+	 	       $row = mysql_fetch_array($result2,MYSQL_ASSOC);
+	 	       $e = implode(" ",$row);
+	 	       $f = explode(" ",$e);
+	 	       $backvalue .= $f[0];
+	 	   } else {
+	 	       $backvalue .= "0";
+	 	   }
+       }
 	}
     return "1#".$backvalue;
  }
@@ -2146,12 +2241,39 @@ in the server error log.</p>
 
    //--------------------------------------------------------------
 
+   function encLongText($uid, $decText) {
+      //printf($decText."<BR>");
+      $encodedText = "";
+      $chunks = ceil(strlen($decText) / 30);
+      //printf($chunks."<BR>");
+      for ($c = 0; $c < $chunks; $c++) {
+          $chunk = substr($decText, $c * 30);
+          if (strlen($chunk) > 30) {
+             $chunk = substr($chunk, 0, 30);
+          }
+          //printf($chunk."<BR>");
+          $encChunk = encText($uid, $chunk);
+          if ($encodedText != "") {
+          	$encodedText = $encodedText.";";
+          }
+          $encodedText .= $encChunk;
+      }
+      return $encodedText;
+   }
+
+
    function encText($uid, $text) {
          $key = prepareKey($uid);
          $pad = count($key) - strlen($text) - 2;
+         if ($pad < 0) {
+            $pad = 0;
+         }
          $index = rand (0, $pad);
          $rnd = getRND($pad);
          $paddedString = substr($rnd, 0, $index) ."#" . $text . "#" . substr($rnd, $index);
+
+         //printf("padded [".$pad.", ".$index."]: ".$paddedString."<BR>");
+
          $encText = "";
 		 for ($i = 0; $i < 32; $i++) {
 		 	$paddedStringE = ord($paddedString[$i]);
@@ -2164,6 +2286,20 @@ in the server error log.</p>
    }
 
    //--------------------------------------------------------------
+
+   function decLongText($uid, $encLongText) {
+        $encChunks = explode(";", $encLongText);
+        $decText = "";
+	    foreach ($encChunks as $encChunk) {
+	    	$chunk = decText($uid, $encChunk);
+	    	if ($chunk = -1) {
+	    		return -1;
+	    	}
+	    	$decText .= $chunk;
+		}
+		return $decText;
+   }
+
 
    function decText($uid, $encTextBase64) {
        $encText = base64_decode($encTextBase64);
@@ -2178,7 +2314,7 @@ in the server error log.</p>
 	   $i1 = strpos($ptext, "#");
 	   $i2 = strpos($ptext, "#", $i1+1);
 	   //printf($ptext.",".$i1.",".$i2."<BR>");
-	   if ($i1 != "" && $i2 != "" && $i1 >= 0 && $i2 >= 0) {
+	   if ($i2 != null && $i1 >= 0 && $i2 >= 0) {
 	   		return substr($ptext, $i1+1, $i2-$i1-1);
 	   }
 	   return -1;
@@ -2363,6 +2499,7 @@ in the server error log.</p>
       if ($uid != -1) {
         $uids = explode("#", $val);
         $printText = "";
+
 	    foreach ($uids as $hostuid) {
 	        $hostuid = decUid($uid, $hostuid);
 	        //printf(getUsername($hostuid).", ".$uid." <BR>");
@@ -2372,7 +2509,12 @@ in the server error log.</p>
 	        if (strlen($printText) > 0) {
 	           $printText = $printText."#";
 	        }
-	        $printText = $printText.encText($uid, getUsername($hostuid));
+	 	   if (isAllowedToGet($uid, $hostuid)) {
+		        $printText = $printText.encText($uid, getUsername($hostuid));
+	 	   }
+	 	   else {
+		        $printText = $printText."-1";
+	 	   }
 	    }
      	printf("1#".$printText);
      } else {
@@ -2587,7 +2729,11 @@ in the server error log.</p>
  	  $uid = loginTmp($session);
       if ($uid != -1) {
         $val = decUid($uid, $val);
- 		printf(getkey($val));
+        if (isAllowedToGet($uid, $val)) {
+	 		printf(getkey($val));
+	    } else {
+     		printf("0"); // fake noe key
+     	}
       } else {
      	printf("-1"); // -1 == login failed or not activated
       }
@@ -2611,7 +2757,7 @@ in the server error log.</p>
   //---------------------------------
 
  // The val are in form encUid1#encUid2#...
- if ($cmd == "backup" && $session != "" && $val != "") {
+ if ($cmd == "backup" && $session != "") {
  	  $uid = loginTmp($session);
       if ($uid != -1) {
  		printf(backupUserlist($uid, $val, false));
@@ -2707,6 +2853,58 @@ in the server error log.</p>
   //---------------------------------
   //---------------------------------
 
+ if ($cmd == "updateavatar" && $session != "") {
+ 	  $uid = loginTmp($session);
+      if ($uid != -1) {
+        //$val = decLongText($val);
+        if (!$allowavatars) {
+	     	printf("-44"); // -44 == avatars not allowed at this server
+        }
+        else if ($val != -1) {
+	 		printf(updateAvatar($uid, $val));
+        } else {
+	     	printf("-22"); // -22 == avatar transmission error try again
+        }
+      } else {
+     	printf("-1"); // -1 == login failed or not activated
+      }
+      exit;
+ }
+
+  //---------------------------------
+
+ if ($cmd == "getavatar" && $session != ""  && $val != "") {
+ 	  $uid = loginTmp($session);
+      if ($uid != -1) {
+        $val = decUid($uid, $val);
+        $avatar = getAvatar($uid, $val);
+        if ($avatar == "") {
+ 	 		printf("-1");
+        }
+        else {
+ 	 		printf("1#".$avatar);
+        }
+      } else {
+     	printf("-1"); // -1 == login failed or not activated
+      }
+      exit;
+ }
+
+  //---------------------------------
+
+ if ($cmd == "hasavatar" && $session != "" && $val != "") {
+ 	  $uid = loginTmp($session);
+      if ($uid != -1) {
+ 		printf(hasAvatar($uid, $val));
+      } else {
+     	printf("-1"); // -1 == login failed or not activated
+      }
+      exit;
+ }
+
+  //---------------------------------
+  //---------------------------------
+
  // We only allow post here in order to test if the server is alive
  if ($postCmd == "pingpost") {
     printf($postVal);
@@ -2745,10 +2943,14 @@ in the server error log.</p>
 
   // THE FOLLOWING COMMANDS ARE JUST FOR DEBUGGING
 
-// if ($cmd == "enc") {
-//    printf(serverEnc($val));
-//    exit;
-// }
+ if ($cmd == "enc") {
+    printf(encLongText(3, $val));
+    exit;
+ }
+ if ($cmd == "dec") {
+    printf(decLongText(3, $val));
+    exit;
+ }
 
 // if ($cmd == "enc2") {
 //  //  $encryptedText = serverEnc($val);

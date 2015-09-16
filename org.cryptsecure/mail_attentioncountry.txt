@@ -1,0 +1,18 @@
+Welcome %USERNAME (UID: %UID),
+
+   +++ THIS IS A SECURITY WARNING +++
+
+---
+
+You have just logged on from a different country %COUNTRY than regulary %OLDCOUNTRY. If this login attempt was made by yourself then you should not worry.
+Otherwise we advise you to promptly change your password.
+
+---
+
+Best regards,
+
+Delphino CryptSecure Team
+http://www.cryptsecure.org
+
+-----------------------------------------
+This mail was requested by IP address %IPADDRESS.

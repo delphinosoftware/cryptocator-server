@@ -1,0 +1,21 @@
+Welcome %USERNAME (UID: %UID),
+
+   +++ THIS IS A SECURITY WARNING +++
+
+---
+
+You have just logged on with a yet unknown device that has id '%DEVICE'. If this login attempt was made by yourself then you should not worry. But you should remember this id to be able to compare it when receiving future security warning emails. No further warning emails will be sent for this new device '%DEVICE'. 
+
+Otherwise, if this is NOT your device, we strongly advise you to change your password immediately!
+
+You can find and check your device ID in the account settings at the top.
+
+---
+
+Best regards,
+
+Delphino CryptSecure Team
+http://www.cryptsecure.org
+
+-----------------------------------------
+This mail was requested by IP address %IPADDRESS.

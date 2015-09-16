@@ -1,5 +1,5 @@
 <head>
-	<title>Delphino Cryptocator - Secure and Personal Text Message and SMS System for Android</title>
+	<title>Delphino CryptSecure - Secure and Personal Text Message and SMS System for Android</title>
 	<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
 	<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
 	<link rel="icon" type="image/png" href="/favicon.png">
@@ -34,7 +34,7 @@ body {
   <table width="300" border="0" align="center" cellspacing="10">
     <tr>
       <td width="8%" valign="top"><img src="msg.png" alt="message" width="48" height="48" /></td>
-      <td width="400"><p class="Stil1"><strong>Delphino Cryptocator 1.3</strong><br />
+      <td width="400"><p class="Stil1"><strong>Delphino CryptSecure 1.4</strong><br />
               <span class="Stil3">Secure &amp; Personal Text Message System - Protect your privacy.</span><br />
               <span class="Stil7"><a href="http://www.cryptocator.org">http://www.cryptocator.org</a> </span></p></td>
     </tr>

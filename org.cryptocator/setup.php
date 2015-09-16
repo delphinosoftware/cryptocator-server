@@ -10,7 +10,7 @@
 
  require('config.php');
 
- printf("<BR><BR>=== CRYPTOCATOR SETUP ====<BR><BR>");
+ printf("<BR><BR>=== CRYPTSECURE SETUP ====<BR><BR>");
 
 
  function opendb() {
@@ -119,7 +119,7 @@ $sql = 'CREATE TABLE IF NOT EXISTS  `userlistbak` ('
 		        . ' `ip` VARCHAR(20) NOT NULL, '
 		        . ' `country` VARCHAR(2) NOT NULL, '
 		        . ' `device` VARCHAR(4) NOT NULL, '
-		        . ' `valhash` VARCHAR(32) NOT NULL'
+		        . ' `valhash` VARCHAR(32) NOT NULL, '
 		        . ' `lastsalt` VARCHAR(10) NOT NULL'
         . ' )';
 

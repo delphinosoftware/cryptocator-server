@@ -15,17 +15,17 @@
  * and the following disclaimer in the documentation and/or other materials
  * provided with the distribution.
  *
- * 3. Neither the name Delphino Cryptocator nor the names of its contributors
+ * 3. Neither the name Delphino CryptSecure nor the names of its contributors
  * may be used to endorse or promote products derived from this software
  * without specific prior written permission.
  *
- * 4. Free or commercial forks of Cryptocator are permitted as long as
+ * 4. Free or commercial forks of CryptSecure are permitted as long as
  *    both (a) and (b) are and stay fulfilled:
  *    (a) This license is enclosed.
- *    (b) The protocol to communicate between Cryptocator servers
- *        and Cryptocator clients *MUST* must be fully conform with
+ *    (b) The protocol to communicate between CryptSecure servers
+ *        and CryptSecure clients *MUST* must be fully conform with
  *        the documentation and (possibly updated) reference
- *        implementation from cryptocator.org. This is to ensure
+ *        implementation from cryptsecure.org. This is to ensure
  *        interconnectivity between all clients and servers.
  *
  * THIS SOFTWARE IS PROVIDED BY THE CONTRIBUTORS “AS IS” AND
@@ -506,7 +506,7 @@ in the server error log.</p>
  function sendWelcomeMessage($uid) {
  	$uid = intval($uid);
     $createdTimeStamp = date("U")."000";
-    $welcome = "UWelcome to Delphino Cryptocator!@@@NEWLINE@@@@@@NEWLINE@@@Your account has just been activated. You can now exchange securely encrypted messages with other people who also value uncompromised privacy.@@@NEWLINE@@@@@@NEWLINE@@@Give your UID \'".$uid."\' to anyone who should be able to add you. Ask friends about their UIDs in order to add them. To add UIDs, go to the main window and select \'Add User\' from the context menu.@@@NEWLINE@@@@@@NEWLINE@@@More information here: http://www.cryptocator.org@@@NEWLINE@@@@@@NEWLINE@@@Tell a good friend about Cryptocator if you like it!";
+    $welcome = "UWelcome to Delphino CryptSecure!@@@NEWLINE@@@@@@NEWLINE@@@Your account has just been activated. You can now exchange securely encrypted messages with other people who also value uncompromised privacy.@@@NEWLINE@@@@@@NEWLINE@@@Give your UID \'".$uid."\' to anyone who should be able to add you. Ask friends about their UIDs in order to add them. To add UIDs, go to the main window and select \'Add User\' from the context menu.@@@NEWLINE@@@@@@NEWLINE@@@More information here: http://www.cryptsecure.org@@@NEWLINE@@@@@@NEWLINE@@@Tell a good friend about CryptSecure if you like it!";
  	sendText("0", $uid, $welcome, $createdTimeStamp);
  }
 
@@ -886,7 +886,7 @@ in the server error log.</p>
   // Login with uid or email
   // Extendedlogin will print uid, email and username additionally
 
-  // delphino.net/cryptocator/index.php?cmd=login2&val=uid%23passw%23secret%23timestamp%23HTC1
+  // delphino.net/cryptsecure/index.php?cmd=login2&val=uid%23passw%23secret%23timestamp%23HTC1
 
   // shorthash() == first 5 symbols from md5() hash!
   // expect val1= uid or email
@@ -3489,7 +3489,7 @@ cleanupTimedoutInvitations(); //    printf("BLAA");
   //---------------------------------
   //---------------------------------
 
- //showMessage("This application requires the Delphino Cryptocator Android App.");
+ //showMessage("This application requires the Delphino CryptSecure Android App.");
 
  // If the sever is in stealth mode and this was no valid request, then prentend
  // this is an invalid site.

@@ -66,7 +66,7 @@
 
  printf("\n");
  printf("==============================================================\n");
- printf("==  WWW.CRYPTOCATOR.ORG - WE EXPOSE ANY ATTACKS ON PRIVACY  ==\n");
+ printf("==  WWW.CRYPTSECURE.ORG - WE EXPOSE ANY ATTACKS ON PRIVACY  ==\n");
  printf("==============================================================\n");
  printf("\n");
  printf("R E C E N T   A T T A C K S:\n");

@@ -1,16 +1,16 @@
 <?
 //================================================================================================
-//===        D E L P H I N O     C R Y P T O C A T O R     C O N F I G U R A T I O N           ===
+//===        D E L P H I N O     C R Y P T S E C U R E     C O N F I G U R A T I O N           ===
 //================================================================================================
 
 
-$BASEURL = "http://www.cryptocator.org/";
-$WEBMASTER = "webaster@cryptocator.org";
+$BASEURL = "http://www.cryptsecure.org/";
+$WEBMASTER = "webaster@cryptsecure.org";
 $DBUSER = "dummy";
 $DBPWD = "Sando441";
 $DBURL = "localhost";
-$DBNAME = "cryptocator";
-$CONST_EMAILHEADER  = "From: Delphino Cryptocator <noreply@cryptocator.org>\n";
+$DBNAME = "cryptsecure";
+$CONST_EMAILHEADER  = "From: Delphino CryptSecure <noreply@cryptsecure.org>\n";
 $CONST_EMAILHEADER .= "Content-Type: text/plain; charset=us-ascii\n";
 $CONST_EMAILHEADER .= "Content-transfer-encoding: quoted-printable";
 $CONST_EMAILHEADER .= "MIME-Version: 1.0\n";

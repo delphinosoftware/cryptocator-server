@@ -9,7 +9,7 @@
 	<META NAME="revisit-after" CONTENT="14 days">
 	<META NAME="ROBOTS" CONTENT="ALL">
 	<META NAME="audience" CONTENT="All">
-	<META NAME="author" content="CryptSecure.org - CryptSecure.com - CryptSecure.net - CryptSecure.de - (c) Christian Motika, dedicated to Sara Gebhart">
+	<META NAME="author" content="CryptSecure.org - CryptSecure.net - CryptSecure.de - (c) Christian Motika, dedicated to Sara Gebhart">
 	<META NAME="abstract" CONTENT="CryptSecure.org - Secure and Personal Text Message and SMS System - Light-weight + Easy + Secure">
 	<meta name="viewport" content="width=device-width; target-densitydpi=device-dpi; initial-scale=0.0; maximum-scale=1.0; user-scalable=yes">
 	<link rel="icon" type="image/png" href="/favicon.png">

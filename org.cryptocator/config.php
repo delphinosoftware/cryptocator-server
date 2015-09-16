@@ -19,6 +19,9 @@ $allownewaccounts = true; // disallow any new accounts
 $allowavatars = true;
 $serverstealthmode = false; // if an invalid url is entered, a 500 internal server error is presented instead
 
+$allowgroups = false;
+$timeoutforinvitations = 24; // within 24 hours a group invitation must be accepted
+
 $allowattachments = true;  // attachments for internet messages allowed
 $maxattachmentkb = 30;     // maximum KB size of attachments allowed for internet messages
 

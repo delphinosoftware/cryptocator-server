@@ -183,6 +183,29 @@ $sql = 'CREATE TABLE `requests` ('
 
 
 
+$sql = 'CREATE TABLE `groups` ('
+        . ' `id` INT NOT NULL AUTO_INCREMENT, '
+        . ' `name` VARCHAR(20) NOT NULL, '
+        . ' `created` VARCHAR(50) NOT NULL, '
+        . ' `secret` VARCHAR(8) NOT NULL, '
+        . ' PRIMARY KEY (`id`)'
+        . ' )';
+
+
+ echo "groups... ";
+ if (mysql_query($sql)) {echo "OK<BR>";} else {echo "FAILED, DO MANUALLY:<BR>".htmlentities($sql)."<BR>";}
+
+
+$sql = 'CREATE TABLE `groupmembers` ('
+        . ' `groupid` INT NOT NULL, '
+        . ' `uid` INT NOT NULL, '
+        . ' `joined` VARCHAR(50) NOT NULL, '
+        . ' `invited` INT NOT NULL'
+        . ' )';
+
+ echo "groupmembers... ";
+ if (mysql_query($sql)) {echo "OK<BR>";} else {echo "FAILED, DO MANUALLY:<BR>".htmlentities($sql)."<BR>";}
+
 
  $sql = "GRANT SELECT , INSERT , UPDATE , DELETE , CREATE , DROP , INDEX , ALTER  ON `".$DBNAME."` . * TO '".$DBUSER."'@'".$DBURL."';";
  echo "<BR>Granting permissions... ";

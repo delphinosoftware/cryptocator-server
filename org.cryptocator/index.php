@@ -1148,7 +1148,322 @@ in the server error log.</p>
    return $backvalue;
  }
 
+ //--------------------------------------------------------------
+ //--------------------------------------------------------------
 
+ function isGroupMember($uid, $groupid) {
+ 	$uid = intval($uid);
+ 	$groupid = intval($groupid);
+ 	// Only allow group members or invited to query the group members
+    $query = "SELECT `uid` FROM `groupmembers` WHERE `uid` = '".$uid."' AND `groupid` = '".$groupid."' AND `invited` = '0'";
+   $result = mysql_query($query);
+   //printf($query."<BR>");
+   if (mysql_num_rows($result) > 0) {
+   		return true;
+   }
+   return false;
+ }
+
+ //--------------------------------
+
+ function confirmGroupInvitation($uid, $groupsecret) {
+ 	$uid = intval($uid);
+ 	$groupid = getGroupIdBySecret($uid, $groupsecret, false);
+ 	// Only allow group members or invited to query the group members
+    $query = "SELECT `uid` FROM `groupmembers` WHERE `uid` = '".$uid."' AND `groupid` = '".$groupid."' AND `invited` <> '0'";
+    $result = mysql_query($query);
+   //printf($query."<BR>");
+   if (mysql_num_rows($result) > 0) {
+   		// ok we were invited, now set invited to 0
+	    $query = "UPDATE `groupmembers` SET `invited` = '0' WHERE `uid` = '".$uid."' AND `groupid` = '".$groupid."'";
+	    $result = mysql_query($query);
+   		return true;
+   }
+   return false;
+ }
+
+  //--------------------------------
+
+  function renameGroup($uid, $groupid, $newname) {
+  	$uid = intval($uid);
+  	$groupid = intval($groupid);
+ 	// Only allow group members or invited to update the name
+    if (!isGroupMember($uid, $groupid)) {
+   		return false;
+    }
+	$newname = decText($uid, $newname);
+	if ($newname == -1) {
+		// Decoding error, return
+		return false;
+	}
+    $query = "UPDATE `groups` SET `name` = '".$newname."' WHERE `id` = '".$groupid."'";
+    $result = mysql_query($query);
+    if ($result) {
+   		return true;
+    }
+    return false;
+ }
+
+ //--------------------------------
+
+ function getGroupSecret($uid, $groupid) {
+ 	$uid = intval($uid);
+ 	$groupid = intval($groupid);
+ 	// Only allow group members or invited to query the secret
+   if (!isGroupMember($uid, $groupid)) {
+   		return "";
+   }
+   $backvalue = "";
+   $result = mysql_query("SELECT `secret` FROM `groups` WHERE `id` = '".$groupid."'");
+   if (mysql_num_rows($result) > 0) {
+       $row = mysql_fetch_array($result,MYSQL_ASSOC);
+       $e = implode(" ",$row);
+       $f = explode(" ",$e);
+       $backvalue = $f[0];
+   }
+   return $backvalue;
+ }
+
+ //--------------------------------
+
+ function getGroupName($uid, $groupid) {
+ 	$uid = intval($uid);
+ 	$groupid = intval($groupid);
+ 	// Only allow group members or invited to query the name
+   if (!isGroupMember($uid, $groupid)) {
+   		return "";
+   }
+   $backvalue = "";
+   $result = mysql_query("SELECT `name` FROM `groups` WHERE `id` = '".$groupid."'");
+   if (mysql_num_rows($result) > 0) {
+       $row = mysql_fetch_array($result,MYSQL_ASSOC);
+       $e = implode(" ",$row);
+       $f = explode(" ",$e);
+       $backvalue = $f[0];
+   }
+   return $backvalue;
+ }
+
+ //--------------------------------
+
+ function getGroupIdBySecret($uid, $secret, $checkmembership) {
+   $uid = intval($uid);
+   if ($secret == "`secret`") {
+   		return "-1";
+   }
+   $backvalue = -1;
+   $result = mysql_query("SELECT `id`  FROM `groups` WHERE `secret` = '".$secret."'");
+   if (mysql_num_rows($result) > 0) {
+       $row = mysql_fetch_array($result,MYSQL_ASSOC);
+       $e = implode(" ",$row);
+       $f = explode(" ",$e);
+       $backvalue = $f[0];
+	   if ($checkmembership && !isGroupMember($uid, $backvalue)) {
+	   		// Not allowed because uid is not member of the group
+	    	$backvalue = -1;
+	   }
+   }
+   return $backvalue;
+ }
+
+ //--------------------------------
+
+ // Get a list of all (confirmed!) group members (other than me)
+ function getGroupMembers($uid, $groupid) {
+ 	$uid = intval($uid);
+	$groupid = intval($groupid);
+	   // Only allow group members or invited to query the secret
+	   if (!isGroupMember($uid, $groupid)) {
+	   		return ""; // not allowed
+	   }
+  	   $backvalue = "";
+       $query = "SELECT `uid`  FROM `groupmembers` WHERE `groupid` = '".$groupid."' AND `uid` != '".$uid."' AND `invited` = '0'";
+       $result = mysql_query($query);
+
+       $found = false;
+  	   if (mysql_num_rows($result) > 0) {
+   	        $found = true;
+  	   		$backvalue = "";
+  	   		while($row = mysql_fetch_array($result,MYSQL_ASSOC)) {
+ 	 	       $e = implode(" ",$row);
+ 	 	       $f = explode(" ",$e);
+
+			   $hostuidenc = encUid($uid,$f[0]);
+	 	       $backvalue .= "#".$hostuidenc;
+ 	    	} // add
+  	   } else {
+  	   		$backvalue = ""; // no other members than me (==uid)
+  	   }
+	   return $backvalue;
+ }
+
+ //--------------------------------
+
+ // Get a (uid encoded) list of all groupids I am a (confirmed) member of
+ function getGroupsAndMembers($uid) {
+ 	$uid = intval($uid);
+    $backvalue = "";
+       $query = "SELECT `groupid`  FROM `groupmembers` WHERE `uid` = '".$uid."' AND `invited` = '0'";
+       $result = mysql_query($query);
+
+       $found = false;
+  	   if (mysql_num_rows($result) > 0) {
+   	        $found = true;
+  	   		$backvalue = "1";
+  	   		while($row = mysql_fetch_array($result,MYSQL_ASSOC)) {
+ 	 	       $e = implode(" ",$row);
+ 	 	       $f = explode(" ",$e);
+
+			   $groupid = $f[0];
+			   $groupidenc = encUid($uid,$groupid);
+			   $groupnameenc = encText($uid, getGroupName($uid, $groupid));
+	 	       $backvalue .= "##".$groupidenc."#".$groupnameenc. getGroupMembers($uid, $groupid);
+
+ 	    	} // add
+  	   } else {
+  	   		$backvalue = "0"; // no other members than me (==uid)
+  	   }
+	   return $backvalue;
+ }
+
+ //--------------------------------
+
+ // Get a (uid encoded) list of all groupids I am not yet a member but invited
+ function getGroupsInvited($uid) {
+ 	$uid = intval($uid);
+    $backvalue = "";
+    cleanupTimedoutInvitations();
+
+       $query = "SELECT `groupid`  FROM `groupmembers` WHERE `uid` = '".$uid."' AND `invited` <> '0'";
+       $result = mysql_query($query);
+
+       $found = false;
+  	   if (mysql_num_rows($result) > 0) {
+   	        $found = true;
+  	   		$backvalue = "1";
+  	   		while($row = mysql_fetch_array($result,MYSQL_ASSOC)) {
+ 	 	       $e = implode(" ",$row);
+ 	 	       $f = explode(" ",$e);
+
+			   $hostuidenc = encUid($uid,$f[0]);
+	 	       $backvalue .= "#".$hostuidenc;
+ 	    	} // add
+  	   } else {
+  	   		$backvalue = "0"; // no other members than me (==uid)
+  	   }
+	   return $backvalue;
+ }
+
+
+ //--------------------------------
+
+  // Invited is 0 == non invited, <> 0 == the uid that invited the person
+ function addGroupMember($uid, $groupid, $inviteduid) {
+ 	$uid = intval($uid);
+ 	$groupid = intval($groupid);
+ 	$inviteduid = intval($inviteduid);
+	cleanupTimedoutInvitations();
+ 	if (isGroupMember($uid, $groupid)) {
+ 			return false; // already a confirmed member
+ 	}
+ 	if ($inviteduid != 0) {
+ 	 	// DO OOOOONLY if we INVITE someone and possibly update the entry!!!
+ 	 	// OTHERWISE the group is removed again before we can join as a
+ 	 	// group creator!
+	 	removeGroupMember($uid, $groupid);
+	}
+	$query = "INSERT INTO `groupmembers` (groupid, uid, joined, invited)
+               VALUES ('".$groupid."','".$uid."','".date("U")."000','".$inviteduid."')";
+	$result = mysql_query($query);
+	return $result;
+ }
+
+ //--------------------------------
+
+ function removeGroupMember($uid, $groupid) {
+ 	$uid = intval($uid);
+ 	$groupid = intval($groupid);
+     $query = "DELETE FROM `groupmembers` WHERE uid = '".$uid."' AND `groupid` = '".$groupid."'";
+     $result = mysql_query($query);
+     if ($result) {
+	   	   cleanupUnusedGroups();
+           return true;
+     }
+     return false;
+ }
+
+ //--------------------------------
+
+ function cleanupTimedoutInvitations() {
+      $timebarrier = (date("U") - ($timeoutforinvitations * 60 * 60)) * 1000;
+   	  // TO TEST
+      $query = "DELETE FROM `groupmembers` WHERE `invited` <> '0' AND `joined` < '".$timebarrier."'";
+      //printf($query);
+      $result = mysql_query($query);
+      if ($result) {
+            return true;
+      }
+      return false;
+ }
+
+
+ // Clean up all groups with no members in it
+ function cleanupUnusedGroups() {
+  	 // TO TEST
+     //$query = "SELECT * FROM `groups` WHERE NOT EXISTS(SELECT 1 FROM `groupmembers` WHERE `groupmembers`.groupid = `groups`.id)";
+     $query = "DELETE FROM `groups` WHERE NOT EXISTS(SELECT 1 FROM `groupmembers` WHERE `groupmembers`.groupid = `groups`.id)";
+     //print($query."<BR>");
+     $result = mysql_query($query);
+     if ($result) {
+           return true;
+     }
+     return false;
+ }
+
+ //--------------------------------
+
+ // Creates a new group with a unique secret and returns the groupid#secret
+ function createGroup($uid, $groupname) {
+ 		$uid = intval($uid);
+
+		$groupname = decText($uid, $groupname);
+		if ($groupname == -1) {
+			// Decoding error, return
+			return "-1";
+		}
+
+   		//$values = explode("#", $val3);
+   		//if (count($values) == ) {
+   		//    $userHashVgl = $values[0];
+   		//    $passwordHashVgl = $values[1];
+
+		// generate a new group secret
+		$secret = -1;
+		$groupIdFound = 0;
+		// Choose a unique secret => test if the secret is already used (NOT checking membership)
+		while($groupIdFound != -1) {
+			$secret = getRND(8);
+			$groupIdFound = getGroupIdBySecret($uid, $secret, false);
+		}
+
+	    $query = "INSERT INTO `groups` (name, created, secret)
+               VALUES ('".$groupname."','".date("U")."000','".$secret."')";
+
+	    $result1 = mysql_query($query);
+
+	    $groupid = getGroupIdBySecret($uid, $secret, false);
+
+	    // Add this user to the just created group
+	    addGroupMember($uid, $groupid, 0);
+
+ 		$groupidenc = encUid($uid,$groupid);
+ 		$secretenc = encText($uid,$secret);
+
+
+	    return "1#".$groupidenc."#".$secretenc;
+ }
+
+ //--------------------------------------------------------------
  //--------------------------------------------------------------
 
  // replaces all found seach with replace strings
@@ -2905,6 +3220,170 @@ in the server error log.</p>
   //---------------------------------
   //---------------------------------
 
+
+// function isGroupMember($uid, $groupid) {
+// function getGroupSecret($uid, $groupid) {
+// function getGroupIdBySecret($uid, $secret) {
+// function getGroupMembers($uid, $groupid) {
+// function addGroupMember($uid, $groupid, $inviteduid) {
+// function removeGroupMember($uid, $groupid) {
+// function createGroup($uid, $groupname) {
+// confirmGroupInvitation($uid, $groupid)
+// renameGroup($uid, $groupid, $newname)
+
+
+// val is enctext-groupname
+// return is 1#encuid-groupid#enctext-secret
+ if ($cmd == "creategroup" && $session != "" && $val != "") {
+ 	  $uid = loginTmp($session);
+// if ($cmd == "creategroup" && $val != "") {
+      if ($uid != -1) {
+ 		printf(createGroup($uid, $val));
+      } else {
+     	printf("-1"); // -1 == login failed or not activated
+      }
+      exit;
+ }
+
+if ($cmd == "confirmgroup" && $session != "" && $val != "") {
+	  $uid = loginTmp($session);
+//if ($cmd == "confirmgroup" && $val != "") {
+     if ($uid != -1) {
+        $groupsecret = decText($uid, $val);
+        //printf("groupsecret=".$groupsecret."<BR>");
+        //exit;
+ 		if (confirmGroupInvitation($uid, $groupsecret)) {
+		 	$groupid = getGroupIdBySecret($uid, $groupsecret, false);
+ 			printf("1#".encUid($uid, $groupid));
+ 		}
+ 		else {
+ 			printf("0"); // already a member or not invited at all
+ 		}
+     } else {
+    	printf("-1"); // -1 == login failed or not activated
+     }
+     exit;
+}
+
+
+
+if ($cmd == "getgroupsecret" && $session != "" && $val != "") {
+	  $uid = loginTmp($session);
+//if ($cmd == "getgroupsecret" && $val != "") {
+     if ($uid != -1) {
+        if (isGroupMember($uid, $val)) {
+ 			printf("1#".encText($uid,getGroupSecret($uid, $val)));
+	    }
+        else {
+	     	printf("-1"); // -1 == not allowed, inviting user MUST be member of the group
+        }
+     } else {
+    	printf("-1"); // -1 == login failed or not activated
+     }
+     exit;
+}
+
+
+
+if ($cmd == "renamegroup" && $session != "" && $val != "" && $val1 != "") {
+	  $uid = loginTmp($session);
+//if ($cmd == "renamegroup" && $val != "" && $val1 != "") {
+     if ($uid != -1) {
+        $groupid = decUid($uid, $val);
+        if (isGroupMember($uid, $groupid)) {
+        	// Do rename group to decoded value of val1
+        	if (renameGroup($uid, $groupid, $val1)) {
+	 			printf("1"); // group renamed
+        	}
+        	else {
+	 			printf("0"); // something went wrong
+        	}
+	    }
+        else {
+	     	printf("-1"); // -1 == not allowed, inviting user MUST be member of the group
+        }
+     } else {
+    	printf("-1"); // -1 == login failed or not activated
+     }
+     exit;
+}
+
+
+
+ if ($cmd == "quitgroup" && $session != "" && $val != "") {
+ 	  $uid = loginTmp($session);
+// if ($cmd == "quitgroup" && $val != "" ) {
+      if ($uid != -1) {
+        $groupid = decUid($uid, $val);
+        if (isGroupMember($uid, $groupid)) {
+        	if (removeGroupMember($uid, $groupid)) {
+        		printf("1"); // successfully removed uid from the list of members
+        	} else {
+        		printf("0"); // maybe not a member?
+        	}
+	    }
+        else {
+	     	printf("-1"); // -1 == not allowed, inviting user MUST be member of the group
+        }
+      } else {
+     	printf("-1"); // -1 == login failed or not activated
+      }
+      exit;
+ }
+
+
+
+
+
+ if ($cmd == "invitegroup" && $session != "" && $val != ""  && $host != "") {
+ 	  $uid = loginTmp($session);
+// if ($cmd == "invitegroup" && $val != ""  && $host != "") {
+      if ($uid != -1) {
+        $groupid = decUid($uid, $val);
+        $host = decUid($uid, $host);
+        if (isGroupMember($uid, $groupid)) {
+        	if (addGroupMember($host, $groupid, $uid)) {
+        		printf("1"); // invited
+        	} else {
+        		printf("0"); // not invited, maybe already a member?
+        	}
+	    }
+        else {
+	     	printf("-1"); // -1 == not allowed, inviting user MUST be member of the group
+        }
+      } else {
+     	printf("-1"); // -1 == login failed or not activated
+      }
+      exit;
+ }
+
+
+
+ if ($cmd == "getgroups" && $session != "") {
+ 	  $uid = loginTmp($session);
+// if ($cmd == "getgroups") {
+      if ($uid != -1) {
+ 		printf(getGroupsAndMembers($uid));
+      } else {
+     	printf("-1"); // -1 == login failed or not activated
+      }
+      exit;
+ }
+
+ if ($cmd == "getinvitedgroups" && $session != "") {
+ 	  $uid = loginTmp($session);
+// if ($cmd == "getinvitedgroups") {
+      if ($uid != -1) {
+ 		printf(getGroupsInvited($uid));
+      } else {
+     	printf("-1"); // -1 == login failed or not activated
+      }
+      exit;
+ }
+
+  //---------------------------------
+  //---------------------------------
+
  // We only allow post here in order to test if the server is alive
  if ($postCmd == "pingpost") {
     printf($postVal);
@@ -2973,6 +3452,7 @@ in the server error log.</p>
 //     exit;
 // }
 
+
 // if ($cmd == "test") {
 //    $encTextBase64 = encText($uid, $val);
 // 	printf("ENC:'".$encTextBase64."'<BR><BR><BR><BR><BR><BR>");
@@ -2990,7 +3470,11 @@ in the server error log.</p>
      exit;
  }
 
-// if ($cmd == "test") {
+ if ($cmd == "test") {
+cleanupTimedoutInvitations(); //    printf("BLAA");
+    exit;
+ }
+
 //	 header("Content-Type: text/plain");
 // 	 printf("\n");
 //	  printf("cmd: ".$cmd."\n");

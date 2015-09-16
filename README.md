@@ -1,1 +1,1 @@
-# cryptocator-server
+# cryptsecure-server

@@ -13,8 +13,8 @@ You have requested a password change. Use the following link to activate your ne
 
 Best regards,
 
-Delphino Cryptocator Team
-http://www.cryptocator.org
+Delphino CryptSecure Team
+http://www.cryptsecure.org
 
 -----------------------------------------
 This mail was requested by IP address %IPADDRESS.

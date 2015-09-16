@@ -17,8 +17,8 @@ Otherwise, for precaution, we advise you to promptly change your password to a s
 
 Best regards,
 
-Delphino Cryptocator Team
-http://www.cryptocator.org
+Delphino CryptSecure Team
+http://www.cryptsecure.org
 
 -----------------------------------------
 This mail was requested by IP address %IPADDRESS.

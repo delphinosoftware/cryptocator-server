@@ -14,8 +14,8 @@ You can find and check your device ID in the account settings at the top.
 
 Best regards,
 
-Delphino Cryptocator Team
-http://www.cryptocator.org
+Delphino CryptSecure Team
+http://www.cryptsecure.org
 
 -----------------------------------------
 This mail was requested by IP address %IPADDRESS.

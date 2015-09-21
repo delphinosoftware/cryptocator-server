@@ -504,9 +504,11 @@ in the server error log.</p>
   //--------------------------------------------------------------
 
  function sendWelcomeMessage($uid) {
+    global $welcomemessage;
  	$uid = intval($uid);
     $createdTimeStamp = date("U")."000";
-    $welcome = "UWelcome to Delphino CryptSecure!@@@NEWLINE@@@@@@NEWLINE@@@Your account has just been activated. You can now exchange securely encrypted messages with other people who also value uncompromised privacy.@@@NEWLINE@@@@@@NEWLINE@@@Give your UID \'".$uid."\' to anyone who should be able to add you. Ask friends about their UIDs in order to add them. To add UIDs, go to the main window and select \'Add User\' from the context menu.@@@NEWLINE@@@@@@NEWLINE@@@More information here: http://www.cryptsecure.org@@@NEWLINE@@@@@@NEWLINE@@@Tell a good friend about CryptSecure if you like it!";
+
+    $welcome = "U".$welcomemessage;
  	sendText("0", $uid, $welcome, $createdTimeStamp);
  }
 
@@ -2057,10 +2059,11 @@ in the server error log.</p>
   function inforeceived($uid, $tsreceived) {
    	    $uid = intval($uid);
   	    $receivedTimeStamp = date("U")."000";
-        $query2 = "SELECT mid, received, `toid` FROM messages WHERE received > '".$tsreceived."' AND fromuid = '".$uid."' ORDER BY mid ASC";
+        $query2 = "SELECT mid, received, `touid` FROM messages WHERE received > '".$tsreceived."' AND fromuid = '".$uid."' ORDER BY mid ASC";
         $result2 = mysql_query($query2);
         $found = false;
         $backvalue = "";
+
   	   if (mysql_num_rows($result2) > 0) {
   	        $found = true;
  	        //printf($query2."<BR>");
@@ -3471,9 +3474,19 @@ if ($cmd == "renamegroup" && $session != "" && $val != "" && $val1 != "") {
  }
 
  if ($cmd == "test") {
-cleanupTimedoutInvitations(); //    printf("BLAA");
+	sendWelcomeMessage($uid); //    printf("BLAA");
     exit;
  }
+
+
+ //  $saltChars = array_merge(range('A','Z'), range('a','z'), range('0','9'));
+ // for ($i =0; $i < $SALTLEN; $i++) {
+ //      $salt .= $saltChars[array_rand($saltChars)];
+ // }
+ // return crypt($input, sprintf('$2y$', $rounds) . $salt);
+ // $2y$ tells crypt to use blowfish
+ // sprintf e
+
 
 //	 header("Content-Type: text/plain");
 // 	 printf("\n");

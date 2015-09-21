@@ -32,8 +32,11 @@ $bantimemin = 10;  // ban for 10 minutes, set to 0 for disabling this security f
 $bantimeinc = 100; // increase 100% == double the bantime after each attack
 $bantimeout = 24;  // hours
 
-$dostimemin = 2;     // inspect the last 2 minutes
-$dosmaxnumreq = 100; // allow 10 requests in the last 2 minutes from the same IP
+$dostimemin = 2;      // inspect the last 2 minutes
+$dosmaxnumreq = 1000; // allow 10 requests in the last 2 minutes from the same IP
+
+$welcomemessage = "Welcome to Delphino CryptSecure!@@@NEWLINE@@@@@@NEWLINE@@@Your account has just been activated. You can now exchange securely encrypted messages with other people who also value uncompromised privacy.@@@NEWLINE@@@@@@NEWLINE@@@Give your UID \'".$uid."\' to anyone who should be able to add you. Ask friends about their UIDs in order to add them. To add UIDs, go to the main window and select \'Add User\' from the context menu.@@@NEWLINE@@@@@@NEWLINE@@@Find more information here: http://www.cryptsecure.org@@@NEWLINE@@@@@@NEWLINE@@@Tell a good friend about CryptSecure if you like it!";
+
 
 $ipaddress = $_SERVER['REMOTE_ADDR'];
 //printf($ipaddress);

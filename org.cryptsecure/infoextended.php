@@ -9,7 +9,7 @@
 	<META NAME="revisit-after" CONTENT="14 days">
 	<META NAME="ROBOTS" CONTENT="ALL">
 	<META NAME="audience" CONTENT="All">
-	<META NAME="author" content="CryptSecure.org - CryptSecure.net - CryptSecure.de - (c) Christian Motika, dedicated to Sara Gebhart">
+	<META NAME="author" content="CryptSecure.org - CryptSecure.net - CryptSecure.de - (c) Christian Motika">
 	<META NAME="abstract" CONTENT="CryptSecure.org - Secure and Personal Text Message and SMS System - Light-weight + Easy + Secure">
 	<meta name="viewport" content="width=device-width; target-densitydpi=device-dpi; initial-scale=0.0; maximum-scale=1.0; user-scalable=yes">
 	<link rel="icon" type="image/png" href="/favicon.png">
@@ -198,7 +198,7 @@ body {
               </p>
             <hr />
             <p class="Stil16">Legal information/Impressum: Christian Motika, Allee 18, 25709 Marne, further details and email address see: <a href="http://delphino.de">http://delphino.de</a><br />
-              Copyright (c) Christian Motika, August 2015, www.delphino.de, dedicated to the most important person in my life Sara Gebhart, SC www.sarachriz.com<br />
+              Copyright (c) Christian Motika, August 2015, www.delphino.de<br />
             </p>
             <p align="left" class="Stil3"><span class="Stil12"><br />
             </span></p>            </td>
